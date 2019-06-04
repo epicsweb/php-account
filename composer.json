@@ -1,0 +1,26 @@
+{
+    "name": "epicsweb/php-account",
+    "description": "",
+    "keywords": [
+        "CodeIgniter",
+        "Composer",
+        "Laravel",
+        "installer"
+    ],
+    "homepage": "https://github.com/epicsweb/php-account",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matheus Pereira",
+            "email": "contato@matheusp.com.br"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "require": {
+        "php": ">=5.6"
+    }
+}
