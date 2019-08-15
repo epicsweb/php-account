@@ -14,6 +14,9 @@ composer require epicsweb/php-account
 
 #### CodeIgniter
 
+
+######Account
+
 Create or edit a file in your code igniter application folder and set this vars: **/application/config/config.php**
 
 ```php
@@ -24,6 +27,18 @@ $config['api_epics'] = array(
 	'http_user' 	=> 'Http_User',
 	'http_pass' 	=> 'Http_Pass',
 );
+```
+
+######Tracker
+
+Create a file in your code igniter application folder and set this vars: **/application/config/epicsweb.php**
+
+```php
+<?php if( !defined('BASEPATH')) exit('No direct script access allowed');
+$config['tracker']	= [
+	'server'			=> 'http://tracker.epics/',
+	'companies_tokens'	=> '3a532acb04cc795c97c518e327a278a9'
+];
 ```
 
 #### Laravel
@@ -50,6 +65,8 @@ $config['composer_autoload'] = realpath(APPPATH . '../vendor/autoload.php');
 
 #### CodeIgniter & Laravel
 
+#####Account
+
 Call the "account_create or account_login" function of this library with an array like unique param
 
 ```php
@@ -71,6 +88,18 @@ $login = [
     'idFacebook'	=> '001122334455' // **
 ];
 $account->account_login( $login )
+```
+
+#####Tracker
+
+```php
+$tracker = new Epicsweb\PhpTracker( 'ci' );
+$insert = [
+	'application_id'	=> 0,
+	'users_id'			=> 0,
+	'identifier_id'		=> 0
+];
+$tracker->insert( $insert );
 ```
 
 ### License
