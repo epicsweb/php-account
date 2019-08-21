@@ -12,10 +12,9 @@ composer require epicsweb/php-account
 
 ## Configuration
 
-#### CodeIgniter
+### CodeIgniter
 
-
-######Account
+##### Account
 
 Create or edit a file in your code igniter application folder and set this vars: **/application/config/config.php**
 
@@ -28,8 +27,7 @@ $config['api_epics'] = array(
 	'http_pass' 	=> 'Http_Pass',
 );
 ```
-
-######Tracker
+##### Tracker
 
 Create a file in your code igniter application folder and set this vars: **/application/config/epicsweb.php**
 
@@ -41,19 +39,28 @@ $config['tracker']	= [
 ];
 ```
 
-#### Laravel
+
+### Laravel
 
 Set in your **.env** file
+
+##### Account
 
 ```
 AE_URL=YOUR_BASE_URL_API
 AE_USER=YOUR_PWD_USERS
 AE_PASS=YOUR_PWD_PASSWORD
 ```
+##### Tracker
+
+```
+AET_URL=YOUR_BASE_URL_API
+AET_TOKENR=YOUR_COMPANIE_TOKEN
+```
 
 ## Usage
 
-#### CodeIgniter
+### CodeIgniter
 
 Change file **/application/config/config.php**:
 
@@ -63,9 +70,7 @@ $config['composer_autoload'] = FALSE;
 $config['composer_autoload'] = realpath(APPPATH . '../vendor/autoload.php');
 ```
 
-#### CodeIgniter & Laravel
-
-#####Account
+#### Account
 
 Call the "account_create or account_login" function of this library with an array like unique param
 
@@ -90,14 +95,19 @@ $login = [
 $account->account_login( $login )
 ```
 
-#####Tracker
+#### Tracker
 
 ```php
-$tracker = new Epicsweb\PhpTracker( 'ci' );
+$tracker = new PhpAccount( 'laravel' );			// 'laravel' framework params
+$tracker = new Epicsweb\PhpTracker( 'ci' );     // 'ci' framework params (default)
 $insert = [
-	'application_id'	=> 0,
-	'users_id'			=> 0,
-	'identifier_id'		=> 0
+	'application_id'	=> 0, 	// int (11) 		req, your application internal id
+	'users_id'			=> 0,	// int (11) 		req you account user id
+	'identifier_id'		=> 0,	// int (11) 		opt, contract id, user id, your control
+	'resgiter_id'		=> 0,	// int (11) 		opt, page id, item id, your control
+	'tag'				=> '',	// string (25) 		opt, control your tags
+	'social_media_id'	=> 0,	// int (04)			opt, id for you control your social media actions
+	'companies_token'	=> '',	// string(32)	 	opt, can be used in config
 ];
 $tracker->insert( $insert );
 ```

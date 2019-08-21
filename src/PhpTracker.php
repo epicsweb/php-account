@@ -19,11 +19,15 @@ class PhpTracker
 
     	if( is_array($param) && $param['url'] && $param['data'] && $param['method'] ) {
 
+    		$data 								= $param['data'];
+
 	    	//VERIFICA FRAMEWORK
 	    	switch ($this->framework) {
 	    		case 'laravel':
 	    			
-	    			return false;
+	    			$url 						= env('AET_URL');
+
+			    	$data['companies_tokens']	= isset($data['companies_token']) ? $data['companies_token']: env('AET_TOKEN');
 
 	    		break;
 	    		case 'ci':
@@ -38,20 +42,10 @@ class PhpTracker
 	    			$ci->config->load('epicsweb');
 
 	    			$config  					= (array) $ci->config->item('tracker');
+
 			    	$url 						= $config['server'];
 
-			    	$data 						= $param['data'];
-
-			    	$data['companies_tokens']	= $config['companies_tokens'];
-
-			    	$data['session_id']			= session_id();
-			    	$data['json_get']			= json_encode( $ci->input->get() );
-			    	$data['json_post']			= json_encode( $ci->input->post() );
-			    	$data['ip']					= $this->get_ip();
-			    	
-			    	$data['url']				= current_url();
-			    	$data['uri']				= uri_string();
-			    	$data['method']				= $_SERVER['REQUEST_METHOD'];
+			    	$data['companies_tokens']	= isset($data['companies_token']) ? $data['companies_token'] : $config['companies_tokens'];
 
 	    		break;
 	    		default:
@@ -62,7 +56,18 @@ class PhpTracker
 	    	}
 
 	    	//PREPARA OS DADS
-	    	$url 			= $url . $param['url'];
+	    	$url 						= $url . $param['url'];
+
+	    	$data['session_id']			= session_id();
+
+	    	$data['ip']					= $this->get_ip();
+
+	    	$data['json_get']			= json_encode( (isset($_GET) ? $_GET  : [])  );
+	    	$data['json_post']			= json_encode( (isset($_GET) ? $_POST : [])  );
+	    	
+	    	$data['url']				= (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+	    	$data['uri']				= $_SERVER['REQUEST_URI'];
+	    	$data['method']				= $_SERVER['REQUEST_METHOD'];
   
 	        switch ($param['method']) {
 
@@ -70,7 +75,6 @@ class PhpTracker
 
 	                $curl 			= curl_init($url);
 	                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-	                curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 	                curl_setopt($curl, CURLOPT_POST, true);
 	                curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data, NULL, '&'));
 	                $curl_response = curl_exec($curl);
@@ -89,7 +93,7 @@ class PhpTracker
 
     }
 
-    //FUNCTION TO SEND A SMS
+    //FUNCTION TO INSERT NEW LOG
     public function insert($data)
     {
         return $this->executeCurl([
