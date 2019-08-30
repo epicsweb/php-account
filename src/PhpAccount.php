@@ -110,11 +110,25 @@ class PhpAccount
     //FUNCTION - VERIFICA SE EXISTE CONTA
     public function account_verify($data)
     {
+
         return $this->executeCurl([
             'url'   	=> 'dashboard/contaEpics/verify',
             'data'    	=> $data,
             'method'    => 'post'
         ]);
+        
+    }
+
+    //FUNCTION - VERIFICA SE EXISTE CONTA
+    public function forget_password($data)
+    {
+
+        return $this->executeCurl([
+            'url'   	=> 'dashboard/contaEpics/forget_password',
+            'data'    	=> $data,
+            'method'    => 'post'
+        ]);
+
     }
     
 }
