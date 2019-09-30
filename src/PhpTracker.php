@@ -66,8 +66,9 @@ class PhpTracker
 	    	$data['json_post']			= json_encode( (isset($_GET) ? $_POST : [])  );
 	    	
 	    	$data['url']				= (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-	    	$data['uri']				= $_SERVER['REQUEST_URI'];
-	    	$data['method']				= $_SERVER['REQUEST_METHOD'];
+	    	$data['uri']				= isset($_SERVER['REQUEST_URI']) 	? $_SERVER['REQUEST_URI'] : false;
+	    	$data['method']				= isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : false;
+	    	$data['referer']			= isset($_SERVER["HTTP_REFERER"]) 	? $_SERVER["HTTP_REFERER"] : false;
   
 	        switch ($param['method']) {
 
