@@ -73,13 +73,16 @@ class PhpTracker
 
 	            case 'post':
 
-	                $curl 			= curl_init($url);
-	                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	                $curl 				= curl_init($url);
+	                curl_setopt($curl, CURLOPT_RETURNTRANSFER, false);
+	                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
+	                curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
 	                curl_setopt($curl, CURLOPT_POST, true);
 	                curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data, NULL, '&'));
-	                $curl_response = curl_exec($curl);
+	                curl_exec($curl);
 	                curl_close($curl);
-	                return json_decode($curl_response, false);
+	                
+	                return true;
 
 	            break;
 	            default:
