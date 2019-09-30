@@ -68,15 +68,16 @@ class PhpTracker
 	    	$data['url']				= (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 	    	$data['uri']				= isset($_SERVER['REQUEST_URI']) 	? $_SERVER['REQUEST_URI'] : false;
 	    	$data['method']				= isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : false;
-	    	$data['referer']			= isset($_SERVER["HTTP_REFERER"]) 	? $_SERVER["HTTP_REFERER"] : false;
   
 	        switch ($param['method']) {
 
 	            case 'post':
 
 	                $curl 				= curl_init($url);
-	                curl_setopt($curl, CURLOPT_RETURNTRANSFER, false);
+	                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 	                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
+	                curl_setopt($curl, CURLOPT_TIMEOUT, 1);
+	                curl_setopt($curl, CURLOPT_HEADER, 0);
 	                curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
 	                curl_setopt($curl, CURLOPT_POST, true);
 	                curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data, NULL, '&'));
