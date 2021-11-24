@@ -111,15 +111,15 @@ class PhpTracker
     }
 
 	/**
-	 * Captura rastreios no sistema de trackers
+	 * Captura rastreios no sistema de trackers e gera um relatório resumido
 	 *
 	 * @param array $data
 	 * @return object|null
 	 */
-    public function filter(array $data): ?object
+    public function report(array $data): ?object
     {
         return $this->executeCurl([
-            'url'   	=> 'tracker/filter',
+            'url'   	=> 'tracker/report',
             'data'    	=> $data,
             'method'    => 'get'
         ]);
